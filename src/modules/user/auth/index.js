@@ -1,1 +1,1 @@
-// Placeholder for user/auth
+module.exports = require('./auth.routes');

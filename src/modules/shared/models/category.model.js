@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
-
 const schema = new mongoose.Schema({
-    // Placeholder
+    name: { type: String, required: true, unique: true },
+    slug: { type: String, required: true, unique: true },
+    iconUrl: { type: String },
+    sortOrder: { type: Number, default: 0 },
+    isActive: { type: Boolean, default: true }
 }, { timestamps: true });
-
-module.exports = mongoose.model('category.model.js'.split('.')[0], schema);
+schema.index({ isActive: 1, sortOrder: 1 });
+module.exports = mongoose.model('Category', schema);

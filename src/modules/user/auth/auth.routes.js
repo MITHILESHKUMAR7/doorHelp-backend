@@ -1,20 +1,11 @@
 const express = require('express');
-const validate = require('../../../middlewares/validate.middleware');
-const controller = require('./auth.controller');
-const { otpRequestSchema, otpVerifySchema, registerSchema, refreshTokenSchema } = require('./auth.validator');
-
 const router = express.Router();
+const authCtrl = require('./auth.controller');
 
-// POST /api/v1/auth/otp/request
-router.post('/otp/request', validate(otpRequestSchema), controller.requestOtp);
-
-// POST /api/v1/auth/otp/verify
-router.post('/otp/verify', validate(otpVerifySchema), controller.verifyOtp);
-
-// POST /api/v1/auth/register  (requires tempToken from otp/verify)
-router.post('/register', validate(registerSchema), controller.register);
-
-// POST /api/v1/auth/refresh-token
-router.post('/refresh-token', validate(refreshTokenSchema), controller.refreshToken);
+router.post('/otp/request', authCtrl.requestOtp);
+router.post('/otp/verify', authCtrl.verifyOtp);
+router.post('/register', authCtrl.register);
+router.post('/refresh-token', authCtrl.refreshToken);
+router.post('/logout', authCtrl.logout);
 
 module.exports = router;

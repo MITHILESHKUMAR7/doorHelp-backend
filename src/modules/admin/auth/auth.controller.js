@@ -1,16 +1,19 @@
-const asyncHandler = require('../../../common/utils/asyncHandler');
-const { sendSuccess } = require('../../../common/utils/apiResponse');
 const authService = require('./auth.service');
+const { ApiResponse } = require('../../../common/utils/apiResponse');
+const asyncHandler = require('../../../common/utils/asyncHandler');
 
-const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
-  const data = await authService.adminLogin(email, password);
-  sendSuccess(res, { message: 'Login successful', data });
+exports.login = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    const result = await authService.login(email, password);
+    res.status(200).json(new ApiResponse(true, 'Admin logged in', result));
 });
 
-const refreshToken = asyncHandler(async (req, res) => {
-  const data = await authService.refreshAccessToken(req.body.refreshToken);
-  sendSuccess(res, { message: 'Token refreshed', data });
+exports.refreshToken = asyncHandler(async (req, res) => {
+    const { refreshToken } = req.body;
+    const result = await authService.refreshToken(refreshToken);
+    res.status(200).json(new ApiResponse(true, 'Token refreshed', result));
 });
 
-module.exports = { login, refreshToken };
+exports.logout = asyncHandler(async (req, res) => {
+    res.status(200).json(new ApiResponse(true, 'Logged out', {}));
+});

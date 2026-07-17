@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
-
 const schema = new mongoose.Schema({
-    // Placeholder
+    referrer: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    referredUser: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+    status: { type: String, enum: ['pending', 'rewarded'], default: 'pending' },
+    rewardAmount: { type: Number, required: true }
 }, { timestamps: true });
-
-module.exports = mongoose.model('referral.model.js'.split('.')[0], schema);
+module.exports = mongoose.model('Referral', schema);

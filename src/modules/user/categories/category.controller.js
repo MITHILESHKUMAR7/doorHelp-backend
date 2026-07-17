@@ -1,15 +1,13 @@
-const asyncHandler = require('../../../common/utils/asyncHandler');
-const { sendSuccess } = require('../../../common/utils/apiResponse');
 const categoryService = require('./category.service');
+const { ApiResponse } = require('../../../common/utils/apiResponse');
+const asyncHandler = require('../../../common/utils/asyncHandler');
 
-const listCategories = asyncHandler(async (req, res) => {
-  const categories = await categoryService.getActiveCategories();
-  sendSuccess(res, { message: 'Categories fetched', data: categories });
+exports.getAllCategories = asyncHandler(async (req, res) => {
+    const result = await categoryService.getAllActiveCategories();
+    res.status(200).json(new ApiResponse(true, 'Categories fetched', result));
 });
 
-const listSubcategoriesBySlug = asyncHandler(async (req, res) => {
-  const subcategories = await categoryService.getSubcategoriesByCategorySlug(req.params.slug);
-  sendSuccess(res, { message: 'Subcategories fetched', data: subcategories });
+exports.getSubcategories = asyncHandler(async (req, res) => {
+    const result = await categoryService.getSubcategories(req.params.slug);
+    res.status(200).json(new ApiResponse(true, 'Subcategories fetched', result));
 });
-
-module.exports = { listCategories, listSubcategoriesBySlug };

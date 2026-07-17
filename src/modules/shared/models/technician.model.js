@@ -1,7 +1,11 @@
 const mongoose = require('mongoose');
-
 const schema = new mongoose.Schema({
-    // Placeholder
+    fullName: { type: String, required: true },
+    phone: { type: String, required: true, unique: true },
+    avatarUrl: { type: String },
+    skillCategories: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Category' }],
+    isActive: { type: Boolean, default: true },
+    ratingAvg: { type: Number, default: 0 }
 }, { timestamps: true });
-
-module.exports = mongoose.model('technician.model.js'.split('.')[0], schema);
+schema.index({ skillCategories: 1, isActive: 1 });
+module.exports = mongoose.model('Technician', schema);

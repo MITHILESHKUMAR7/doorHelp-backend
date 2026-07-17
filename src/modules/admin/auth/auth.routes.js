@@ -1,14 +1,9 @@
 const express = require('express');
-const validate = require('../../../middlewares/validate.middleware');
-const controller = require('./auth.controller');
-const { loginSchema, refreshTokenSchema } = require('./auth.validator');
-
 const router = express.Router();
+const authCtrl = require('./auth.controller');
 
-// POST /api/v1/admin/auth/login  — public, no auth middleware needed
-router.post('/login', validate(loginSchema), controller.login);
-
-// POST /api/v1/admin/auth/refresh-token
-router.post('/refresh-token', validate(refreshTokenSchema), controller.refreshToken);
+router.post('/login', authCtrl.login);
+router.post('/refresh-token', authCtrl.refreshToken);
+router.post('/logout', authCtrl.logout);
 
 module.exports = router;

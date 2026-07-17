@@ -1,27 +1,31 @@
-const asyncHandler = require('../../../common/utils/asyncHandler');
-const { sendSuccess } = require('../../../common/utils/apiResponse');
 const authService = require('./auth.service');
+const { ApiResponse } = require('../../../common/utils/apiResponse');
+const asyncHandler = require('../../../common/utils/asyncHandler');
 
-const requestOtp = asyncHandler(async (req, res) => {
-  const { phone } = req.body;
-  const data = await authService.requestOtp(phone);
-  sendSuccess(res, { message: 'OTP sent successfully', data });
+exports.requestOtp = asyncHandler(async (req, res) => {
+    const { phone } = req.body;
+    await authService.requestOtp(phone);
+    res.status(200).json(new ApiResponse(true, 'OTP sent', {}));
 });
 
-const verifyOtp = asyncHandler(async (req, res) => {
-  const { phone, otp } = req.body;
-  const data = await authService.verifyOtp(phone, otp);
-  sendSuccess(res, { message: 'OTP verified', data });
+exports.verifyOtp = asyncHandler(async (req, res) => {
+    const { phone, otp } = req.body;
+    const result = await authService.verifyOtp(phone, otp);
+    res.status(200).json(new ApiResponse(true, 'OTP verified', result));
 });
 
-const register = asyncHandler(async (req, res) => {
-  const data = await authService.register(req.body);
-  sendSuccess(res, { statusCode: 201, message: 'Account created successfully', data });
+exports.register = asyncHandler(async (req, res) => {
+    const { tempToken, fullName, email, referralCode } = req.body;
+    const result = await authService.register(tempToken, fullName, email, referralCode);
+    res.status(201).json(new ApiResponse(true, 'User registered', result));
 });
 
-const refreshToken = asyncHandler(async (req, res) => {
-  const data = await authService.refreshAccessToken(req.body.refreshToken);
-  sendSuccess(res, { message: 'Token refreshed', data });
+exports.refreshToken = asyncHandler(async (req, res) => {
+    const { refreshToken } = req.body;
+    const result = await authService.refreshToken(refreshToken);
+    res.status(200).json(new ApiResponse(true, 'Token refreshed', result));
 });
 
-module.exports = { requestOtp, verifyOtp, register, refreshToken };
+exports.logout = asyncHandler(async (req, res) => {
+    res.status(200).json(new ApiResponse(true, 'Logged out', {}));
+});

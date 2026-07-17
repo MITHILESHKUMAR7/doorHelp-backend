@@ -1,58 +1,23 @@
-const asyncHandler = require('../../../common/utils/asyncHandler');
-const { sendSuccess } = require('../../../common/utils/apiResponse');
 const categoryService = require('./category.service');
+const { ApiResponse } = require('../../../common/utils/apiResponse');
+const asyncHandler = require('../../../common/utils/asyncHandler');
 
-// ── Categories ────────────────────────────────────────────────────────────────
-
-const listCategories = asyncHandler(async (req, res) => {
-  const categories = await categoryService.getAllCategories();
-  sendSuccess(res, { message: 'Categories fetched', data: categories });
+exports.createCategory = asyncHandler(async (req, res) => {
+    const result = await categoryService.createCategory(req.body);
+    res.status(201).json(new ApiResponse(true, 'Category created', result));
 });
 
-const createCategory = asyncHandler(async (req, res) => {
-  const category = await categoryService.createCategory(req.body);
-  sendSuccess(res, { statusCode: 201, message: 'Category created', data: category });
+exports.getAllCategories = asyncHandler(async (req, res) => {
+    const result = await categoryService.getAllCategories();
+    res.status(200).json(new ApiResponse(true, 'Categories fetched', result));
 });
 
-const updateCategory = asyncHandler(async (req, res) => {
-  const category = await categoryService.updateCategory(req.params.id, req.body);
-  sendSuccess(res, { message: 'Category updated', data: category });
+exports.updateCategory = asyncHandler(async (req, res) => {
+    const result = await categoryService.updateCategory(req.params.id, req.body);
+    res.status(200).json(new ApiResponse(true, 'Category updated', result));
 });
 
-const deleteCategory = asyncHandler(async (req, res) => {
-  await categoryService.deleteCategory(req.params.id);
-  sendSuccess(res, { message: 'Category deleted' });
+exports.deleteCategory = asyncHandler(async (req, res) => {
+    const result = await categoryService.deleteCategory(req.params.id);
+    res.status(200).json(new ApiResponse(true, 'Category deleted', result));
 });
-
-// ── Subcategories ─────────────────────────────────────────────────────────────
-
-const listSubcategories = asyncHandler(async (req, res) => {
-  const subcategories = await categoryService.getAllSubcategories(req.query.category);
-  sendSuccess(res, { message: 'Subcategories fetched', data: subcategories });
-});
-
-const createSubcategory = asyncHandler(async (req, res) => {
-  const subcategory = await categoryService.createSubcategory(req.body);
-  sendSuccess(res, { statusCode: 201, message: 'Subcategory created', data: subcategory });
-});
-
-const updateSubcategory = asyncHandler(async (req, res) => {
-  const subcategory = await categoryService.updateSubcategory(req.params.id, req.body);
-  sendSuccess(res, { message: 'Subcategory updated', data: subcategory });
-});
-
-const deleteSubcategory = asyncHandler(async (req, res) => {
-  await categoryService.deleteSubcategory(req.params.id);
-  sendSuccess(res, { message: 'Subcategory deleted' });
-});
-
-module.exports = {
-  listCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  listSubcategories,
-  createSubcategory,
-  updateSubcategory,
-  deleteSubcategory,
-};

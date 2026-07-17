@@ -1,15 +1,14 @@
-const categoryRepository = require('../../shared/repositories/category.repository');
+const Category = require('../../shared/models/category.model');
+const Subcategory = require('../../shared/models/subcategory.model');
+const ApiError = require('../../../common/utils/apiError');
 
-/** Powers the Home category grid — active categories only, sorted. */
-function getActiveCategories() {
-  return categoryRepository.findAllActive();
-}
+exports.getAllActiveCategories = async () => {
+    return await Category.find({ isActive: true }).sort({ sortOrder: 1 });
+};
 
-/** Powers the pill-tab filter on the category listing screen. */
-async function getSubcategoriesByCategorySlug(slug) {
-  const category = await categoryRepository.findBySlug(slug);
-  if (!category) return [];
-  return categoryRepository.findActiveSubcategoriesByCategory(category._id);
-}
-
-module.exports = { getActiveCategories, getSubcategoriesByCategorySlug };
+exports.getSubcategories = async (slug) => {
+    const category = await Category.findOne({ slug, isActive: true });
+    if (!category) throw new ApiError(404, 'NOT_FOUND', 'Category not found');
+    
+    return await Subcategory.find({ category: category._id }).sort({ sortOrder: 1 });
+};
