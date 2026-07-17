@@ -7,8 +7,10 @@ const morgan = require('morgan');
 const env = require('./config/env');
 const logger = require('./logger/logger');
 const errorHandler = require('./middlewares/errorHandler.middleware');
-const authRoutes = require('./modules/auth');
-const categoriesModule = require('./modules/categories');
+
+// New v2.0 Routers
+const userRoutes = require('./routes/user.routes');
+const adminRoutes = require('./routes/admin.routes');
 
 const app = express();
 
@@ -21,10 +23,9 @@ app.use(morgan(env.NODE_ENV === 'production' ? 'combined' : 'dev', { stream: { w
 
 app.get('/health', (req, res) => res.status(200).json({ success: true, message: 'DoorHelp API is healthy' }));
 
-// Feature module routers mount here, one line per module (next: services, cart, bookings...)
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/categories', categoriesModule.publicRouter);
-app.use('/api/v1/admin', categoriesModule.adminRouter);
+// v2.0 Architecture: Two distinct module trees
+app.use('/api/v1', userRoutes);
+app.use('/api/v1/admin', adminRoutes);
 
 app.use((req, res, next) => {
   res.status(404).json({ success: false, message: 'Route not found', code: 'NOT_FOUND' });
