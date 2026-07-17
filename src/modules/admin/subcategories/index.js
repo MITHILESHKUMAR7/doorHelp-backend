@@ -1,1 +1,1 @@
-// Placeholder for admin/subcategories
+module.exports = require('./subcategory.routes');

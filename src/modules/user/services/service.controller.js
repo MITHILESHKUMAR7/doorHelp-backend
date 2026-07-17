@@ -1,20 +1,13 @@
-const asyncHandler = require('../../../common/utils/asyncHandler');
-const { sendSuccess } = require('../../../common/utils/apiResponse');
 const serviceService = require('./service.service');
+const { ApiResponse } = require('../../../common/utils/apiResponse');
+const asyncHandler = require('../../../common/utils/asyncHandler');
 
-const listServices = asyncHandler(async (req, res) => {
-  const { items, pagination } = await serviceService.listServices(req.query);
-  sendSuccess(res, { message: 'Services fetched', data: items, meta: pagination });
+exports.getServices = asyncHandler(async (req, res) => {
+    const result = await serviceService.getActiveServices(req.query);
+    res.status(200).json(new ApiResponse(true, 'Services fetched', result));
 });
 
-const getServiceDetail = asyncHandler(async (req, res) => {
-  const service = await serviceService.getServiceDetail(req.params.slug);
-  sendSuccess(res, { message: 'Service fetched', data: service });
+exports.getServiceDetails = asyncHandler(async (req, res) => {
+    const result = await serviceService.getServiceBySlug(req.params.slug);
+    res.status(200).json(new ApiResponse(true, 'Service details fetched', result));
 });
-
-const getServiceReviews = asyncHandler(async (req, res) => {
-  const { items, pagination } = await serviceService.getServiceReviews(req.params.id, req.query);
-  sendSuccess(res, { message: 'Reviews fetched', data: items, meta: pagination });
-});
-
-module.exports = { listServices, getServiceDetail, getServiceReviews };

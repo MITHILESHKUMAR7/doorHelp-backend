@@ -15,8 +15,8 @@ const schema = new mongoose.Schema({
     ratingAvg: { type: Number, default: 0 },
     ratingCount: { type: Number, default: 0 },
     isBestSeller: { type: Boolean, default: false },
-    isActive: { type: Boolean, default: true }
-}, { timestamps: true });
+    isActive: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 schema.index({ category: 1, subcategory: 1, isActive: 1 });
 schema.index({ title: 'text', shortDescription: 'text' });
 module.exports = mongoose.model('Service', schema);

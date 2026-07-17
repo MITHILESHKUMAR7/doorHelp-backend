@@ -1,1 +1,1 @@
-// Placeholder for admin/services
+module.exports = require('./service.routes');

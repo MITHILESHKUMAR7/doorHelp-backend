@@ -16,8 +16,8 @@ const schema = new mongoose.Schema({
     technician: { type: mongoose.Schema.Types.ObjectId, ref: 'Technician' },
     payment: { type: mongoose.Schema.Types.ObjectId, ref: 'Payment' },
     cancelledReason: { type: String },
-    completedAt: { type: Date }
-}, { timestamps: true });
+    completedAt: { type: Date },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 schema.index({ user: 1, createdAt: -1 });
 schema.index({ status: 1 });
 schema.index({ technician: 1, 'slot.date': 1 });

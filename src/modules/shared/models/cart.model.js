@@ -7,6 +7,6 @@ const schema = new mongoose.Schema({
         addons: [{ addon: { type: mongoose.Schema.Types.ObjectId, ref: 'ServiceAddon' }, quantity: { type: Number, default: 1 } }]
     }],
     appliedCoupon: { type: mongoose.Schema.Types.ObjectId, ref: 'Coupon' },
-    savedForLater: { type: Boolean, default: false }
-}, { timestamps: true });
+    savedForLater: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 module.exports = mongoose.model('Cart', schema);

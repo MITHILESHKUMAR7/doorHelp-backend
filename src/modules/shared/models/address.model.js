@@ -12,8 +12,8 @@ const addressSchema = new mongoose.Schema({
         type: { type: String, enum: ['Point'], default: 'Point' },
         coordinates: { type: [Number], required: true }
     },
-    isDefault: { type: Boolean, default: false }
-}, { timestamps: true });
+    isDefault: { type: Boolean, default: false },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 
 addressSchema.index({ user: 1 });
 addressSchema.index({ geo: '2dsphere' });

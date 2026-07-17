@@ -1,1 +1,1 @@
-// Placeholder for user/services
+module.exports = require('./service.routes');

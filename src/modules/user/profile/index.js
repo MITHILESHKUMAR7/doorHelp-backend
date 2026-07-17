@@ -1,1 +1,1 @@
-// Placeholder for user/profile
+module.exports = require('./profile.routes');

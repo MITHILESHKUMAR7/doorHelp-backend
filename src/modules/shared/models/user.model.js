@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     isPhoneVerified: { type: Boolean, default: false },
     isActive: { type: Boolean, default: true },
     passwordHash: { type: String },
-    lastLoginAt: { type: Date }
-}, { timestamps: true });
+    lastLoginAt: { type: Date },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

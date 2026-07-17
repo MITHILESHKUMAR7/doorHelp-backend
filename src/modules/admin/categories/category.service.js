@@ -17,7 +17,8 @@ exports.updateCategory = async (id, data) => {
 };
 
 exports.deleteCategory = async (id) => {
-    const category = await Category.findByIdAndDelete(id);
+    // Soft delete instead of hard delete
+    const category = await Category.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     if (!category) throw new ApiError(404, 'NOT_FOUND', 'Category not found');
     return category;
 };

@@ -5,6 +5,6 @@ const schema = new mongoose.Schema({
     razorpayPaymentId: { type: String },
     razorpaySignature: { type: String },
     amount: { type: Number, required: true },
-    status: { type: String, enum: ['created', 'paid', 'failed', 'refunded'], default: 'created' }
-}, { timestamps: true });
+    status: { type: String, enum: ['created', 'paid', 'failed', 'refunded'], default: 'created' },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 module.exports = mongoose.model('Payment', schema);

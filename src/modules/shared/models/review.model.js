@@ -5,7 +5,7 @@ const schema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     rating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String },
-    isVisible: { type: Boolean, default: true }
-}, { timestamps: true });
+    isVisible: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 schema.index({ service: 1, createdAt: -1 });
 module.exports = mongoose.model('Review', schema);

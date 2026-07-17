@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
     validTill: { type: Date },
     usageLimitPerUser: { type: Number, default: 1 },
     totalUsageLimit: { type: Number },
-    isActive: { type: Boolean, default: true }
-}, { timestamps: true });
+    isActive: { type: Boolean, default: true },
+    isDeleted: { type: Boolean, default: false }}, { timestamps: true });
 schema.index({ isActive: 1, validTill: 1 });
 module.exports = mongoose.model('Coupon', schema);

@@ -1,1 +1,1 @@
-// Placeholder for user/cart
+module.exports = require('./cart.routes');
